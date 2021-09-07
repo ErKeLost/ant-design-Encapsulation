@@ -1,16 +1,19 @@
 const formItems = [{
+    field: 'name',
     type: 'input',
     label: '用户名',
     rules: [],
     placeholder: '请输入用户名'
   },
   {
+    field: 'password',
     type: 'password',
     label: '密码',
     rules: [],
     placeholder: '请输入密码'
   },
   {
+    field: 'createTime',
     type: 'datepicker',
     label: '创建时间',
     rules: [],
@@ -20,12 +23,12 @@ const formItems = [{
     }
   },
   {
+    field: 'chooseName',
     type: 'select',
     label: '选择姓名',
     rules: [],
     placeholder: '请选择姓名',
-    options: [
-      {
+    options: [{
         label: 'adny',
         value: 'girl'
       },

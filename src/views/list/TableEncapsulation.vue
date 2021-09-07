@@ -2,7 +2,8 @@
   <div>
     <page-header-wrapper>
       <a-card>
-        <adny-form v-bind="formConfig"></adny-form>
+        <adny-form v-bind="formConfig" v-model="formData"></adny-form>
+        {{ formData }}
       </a-card>
     </page-header-wrapper>
   </div>
@@ -17,6 +18,12 @@ export default {
   },
   data () {
     return {
+      formData: {
+        name: '',
+        password: '',
+        createTime: [],
+        chooseName: ''
+      },
       formItems,
       formConfig
     }
