@@ -22,6 +22,7 @@ module.exports = {
         }
       }
     ],
+    'vue/no-v-for-template-key': 0,
     'vue/attribute-hyphenation': 0,
     'vue/html-self-closing': 0,
     'vue/component-name-in-template-casing': 0,

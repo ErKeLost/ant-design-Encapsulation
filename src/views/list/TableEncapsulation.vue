@@ -2,56 +2,111 @@
   <div>
     <page-header-wrapper>
       <a-card>
-<<<<<<< HEAD
-        <page-search :searchFormConfig="formConfig"></page-search>
-=======
-        <adny-form v-bind="formConfig" v-model="formData"></adny-form>
-        {{ formData }}
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
+        <page-search
+          class="search-class"
+          :searchFormConfig="formConfig"
+          @resetBtnClick="HandleResetBtnClick"
+          @searchBtnClick="HandleSearchBtnClick"
+          @buildNewData="handleNewData"
+        ></page-search>
+        <page-table
+          ref="table"
+          size="default"
+          rowKey="key"
+          :columns="tableConfig"
+          :data="loadData"
+          showPagination="auto"
+        >
+          <span slot="action" slot-scope="text, record">
+            <template>
+              <a @click="handleEdit(record)">配置</a>
+              <a-divider type="vertical" />
+              <a @click="handleSub(record)">订阅报警</a>
+            </template>
+          </span>
+        </page-table>
+        <page-modal :modalData="modalData" ref="modal" :modalConfig="modalConfig"></page-modal>
       </a-card>
     </page-header-wrapper>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
+import PageModal from '@/components/page/page-modal'
 import PageSearch from '@/components/page/page-search'
-import { formItems, formConfig } from './config/form-config'
+import PageTable from '@/components/page/page-table'
+import { formConfig } from './config/form-config'
+import { modalConfig } from './config/modal-config'
+import { tableConfig } from './config/table-config'
+import { getServiceList } from '@/api/manage'
+import { Ellipsis } from '@/components'
 export default {
   components: {
-    PageSearch
-=======
-import AdnyForm from '@/adny-ui/AdnyForm'
-import { formItems, formConfig } from './config/form-config'
-export default {
-  components: {
-    AdnyForm
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
+    PageSearch,
+    PageTable,
+    PageModal,
+    Ellipsis
   },
   data () {
     return {
-      formData: {
-        name: '',
-        password: '',
-        createTime: [],
-        chooseName: ''
-      },
-      formItems,
-      formConfig
+      modalData: {},
+      modalConfig,
+      formConfig,
+      tableConfig,
+      // 查询参数
+      queryParam: {},
+      loadData: parameter => {
+        const requestParameters = Object.assign({}, parameter, this.queryParam)
+        console.log('loadData request parameters:', requestParameters, parameter)
+        return getServiceList(requestParameters)
+          .then(res => {
+            console.log(res.result)
+            return res.result
+          })
+      }
+    }
+  },
+  methods: {
+    refresh () {
+      this.$refs.table.refresh(true)
+    },
+    HandleResetBtnClick () {
+      this.refresh()
+    },
+    HandleSearchBtnClick (data) {
+      this.queryParam = data
+      console.log(data)
+      this.refresh()
+    },
+    handleEdit (data) {
+      this.modalData = { ...data }
+      this.$refs.modal.visible = true
+      this.editCallback()
+    },
+    handleNewData () {
+      this.modalData = {}
+      this.$refs.modal.visible = true
+      this.newCallback()
+    },
+    newCallback () {
+      const isHiddenItem = this.modalConfig.formItems.find(item => item.field === 'no')
+      isHiddenItem.isHidden = false
+      this.modalConfig.modalTitle = '新建'
+    },
+    editCallback (data) {
+      const isHiddenItem = this.modalConfig.formItems.find(item => item.field === 'no')
+      isHiddenItem.isHidden = true
+      this.modalConfig.modalTitle = '编辑'
     }
   }
 }
 </script>
 
-<<<<<<< HEAD
 <style lang="less" scoped>
-.handle-btn {
-  text-align: right;
-  .btn-search {
-    margin-left: 30px;
-  }
+.search-class {
+  margin-bottom: 20px;
+}
+.newButton {
+  margin: 20px 0;
 }
 </style>
-=======
-<style lang="scss" scoped></style>
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51

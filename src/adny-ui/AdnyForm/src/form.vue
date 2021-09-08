@@ -1,28 +1,19 @@
 <template>
   <div class="container-adny-form table-page-search-wrapper">
-<<<<<<< HEAD
     <div class="container-header">
       <slot name="header"></slot>
     </div>
-    <a-form-model ref="formModel" :model="formData" layout="inline" labelAlign="left" :rules="rules">
+    <a-form-model ref="formModel" :model="formData" layout="inline" labelAlign="left">
       <a-row :gutter="0">
         <a-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
           <a-form-model-item
-            :wrapper-col="{ offset: 1 }"
-=======
-    <a-form-model layout="inline" labelAlign="left">
-      <a-row :gutter="0">
-        <a-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
-          <a-form-model-item
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
+            v-if="!item.isHidden"
+            :wrapper-col="{ offset: 0 }"
             :label="item.label"
             class="form-model-item"
             :style="itemStyle"
             :prop="item.field"
-<<<<<<< HEAD
-=======
-            :rules="[{ required: true, message: 'Please input Activity name', trigger: 'blur' }]"
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
+            :rules="item.rules"
           >
             <template v-if="item.type === 'input' || item.type === 'password'">
               <a-input
@@ -77,12 +68,9 @@
         </a-col>
       </a-row>
     </a-form-model>
-<<<<<<< HEAD
     <div class="container-footer">
       <slot name="footer"></slot>
     </div>
-=======
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
   </div>
 </template>
 
@@ -115,35 +103,12 @@ export default {
   },
   data () {
     return {
-<<<<<<< HEAD
-      formData: { ...this.value },
-      rules: {
-        name: [
-          { required: true, message: '必须输入用户名', trigger: 'blur' },
-          { pattern: /^[a-z0-9]{6,20}$/, message: '必须是6~20个字母或者数字', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '必须输入密码', trigger: 'blur' },
-          { pattern: /^[a-z0-9]{3,}$/, message: '必须是3位以上数字', trigger: 'blur' }
-        ]
-      }
-    }
-  },
-  watch: {
-    formData: {
-      handler (newValue) {
-=======
       formData: { ...this.value }
     }
   },
-  created () {
-    console.log(this.formData)
-  },
   watch: {
     formData: {
       handler (newValue) {
-        console.log(newValue)
->>>>>>> fff1666721e52d96a8941cb8e2d02ac8ec519e51
         this.$emit('input', newValue)
       },
       deep: true

@@ -1,17 +1,13 @@
 const formItems = [
   {
-    field: 'id',
-    type: 'input',
-    label: 'id'
-  },
-  {
     field: 'no',
     type: 'input',
     label: '规则编号',
     rules: [
       { min: 3, max: 5, message: '长度在三到五之间', trigger: 'blur' }
     ],
-    placeholder: '请输入用户名'
+    placeholder: '请输入用户名',
+    isHidden: false
   },
   {
     field: 'description',
@@ -53,17 +49,15 @@ const formItems = [
     ]
   }
 ]
-const formConfig = {
+const modalConfig = {
   itemStyle: {
-    padding: '5px 30px 5px 0px'
+    padding: '5px 10px 5px 10px'
   },
   colLayout: {
-    xl: 6,
-    lg: 8,
-    md: 24,
-    sm: 24,
-    xs: 24
+    span: 24
   },
+  modalTitle: '新建',
+  buttonTitle: '新建',
   formItems
 }
-export { formItems, formConfig }
+export { modalConfig }
