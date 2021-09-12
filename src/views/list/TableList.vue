@@ -247,6 +247,7 @@ export default {
     },
     handleOk () {
       const form = this.$refs.createModal.form
+      console.log(form)
       this.confirmLoading = true
       form.validateFields((errors, values) => {
         if (!errors) {

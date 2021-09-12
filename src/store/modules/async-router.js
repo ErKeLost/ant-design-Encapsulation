@@ -4,6 +4,7 @@
 import { constantRouterMap } from '@/config/router.config'
 import { generatorDynamicRouter } from '@/router/generator-routers'
 
+console.log(constantRouterMap)
 const permission = {
   state: {
     routers: constantRouterMap,
@@ -20,6 +21,7 @@ const permission = {
       return new Promise(resolve => {
         const { token } = data
         generatorDynamicRouter(token).then(routers => {
+          console.log(routers)
           commit('SET_ROUTERS', routers)
           resolve()
         })

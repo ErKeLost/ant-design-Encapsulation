@@ -7,7 +7,6 @@
       <a-row :gutter="0">
         <a-col v-bind="colLayout" v-for="item in formItems" :key="item.label">
           <a-form-model-item
-            v-if="!item.isHidden"
             :wrapper-col="{ offset: 0 }"
             :label="item.label"
             class="form-model-item"

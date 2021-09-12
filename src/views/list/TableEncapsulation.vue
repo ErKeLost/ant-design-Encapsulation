@@ -3,7 +3,7 @@
     <page-header-wrapper>
       <a-card>
         <page-search
-          class="search-class"
+          :style="formConfig.searchStyle"
           :searchFormConfig="formConfig"
           @resetBtnClick="HandleResetBtnClick"
           @searchBtnClick="HandleSearchBtnClick"
@@ -19,13 +19,19 @@
         >
           <span slot="action" slot-scope="text, record">
             <template>
-              <a @click="handleEdit(record)">配置</a>
+              <a-button type="primary" @click="handleEdit(record)">配置</a-button>
               <a-divider type="vertical" />
-              <a @click="handleSub(record)">订阅报警</a>
             </template>
           </span>
         </page-table>
-        <page-modal :modalData="modalData" ref="modal" :modalConfig="modalConfig"></page-modal>
+        <page-modal
+          :modalData="modalData"
+          ref="modal"
+          :modalConfig="modalConfig"
+          @handleConfimClick="HandleConfimClick"
+          :serviceData="serviceData"
+          :serviceParameters="serviceParameters"
+        ></page-modal>
       </a-card>
     </page-header-wrapper>
   </div>
@@ -39,74 +45,84 @@ import { formConfig } from './config/form-config'
 import { modalConfig } from './config/modal-config'
 import { tableConfig } from './config/table-config'
 import { getServiceList } from '@/api/manage'
-import { Ellipsis } from '@/components'
+import { newPageData } from '@/service/test/test.js'
 export default {
   components: {
     PageSearch,
     PageTable,
-    PageModal,
-    Ellipsis
+    PageModal
   },
   data () {
     return {
+      // 对话框数据
       modalData: {},
+      // 对话框配置
       modalConfig,
+      // 表单配置
       formConfig,
+      // table 配置
       tableConfig,
       // 查询参数
       queryParam: {},
-      loadData: parameter => {
+      // 编辑table 列数据
+      rowData: {},
+      // table 数据
+      serviceParameters: { pageNo: 1, pageSize: 100 },
+      loadData: (parameter) => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
-        console.log('loadData request parameters:', requestParameters, parameter)
-        return getServiceList(requestParameters)
-          .then(res => {
-            console.log(res.result)
-            return res.result
-          })
+        return getServiceList(requestParameters).then((res) => {
+          console.log(res.result)
+          return res.result
+        })
       }
     }
   },
   methods: {
-    refresh () {
-      this.$refs.table.refresh(true)
+    // 编辑 新建 请求接口
+    serviceData (data) {
+      return new Promise((resolve) => {
+        resolve(newPageData('users/9690', { ...data, departmentId: 2, roleId: 1 }))
+      })
     },
+    // 确认按钮
+    HandleConfimClick (data) {
+      this.rowData = data
+    },
+    // 重置刷新按钮
     HandleResetBtnClick () {
-      this.refresh()
+      this.useAction('refresh')
     },
+    // 搜索刷新按钮
     HandleSearchBtnClick (data) {
       this.queryParam = data
-      console.log(data)
-      this.refresh()
+      this.useAction('refresh')
     },
+    // 编辑按钮
     handleEdit (data) {
       this.modalData = { ...data }
-      this.$refs.modal.visible = true
-      this.editCallback()
+      this.useAction('visible', true)
+      this.HiddenActionCallback(true, '编辑')
     },
+    // 新建按钮
     handleNewData () {
       this.modalData = {}
-      this.$refs.modal.visible = true
-      this.newCallback()
+      this.useAction('visible', true)
+      this.HiddenActionCallback(false, '新建')
     },
-    newCallback () {
-      const isHiddenItem = this.modalConfig.formItems.find(item => item.field === 'no')
-      isHiddenItem.isHidden = false
-      this.modalConfig.modalTitle = '新建'
+    // 是否隐藏某节点
+    HiddenActionCallback (isHidden, title) {
+      const isHiddenItem = this.modalConfig.formItems.find(
+        (item) => item.field === 'name'
+      )
+      console.log(isHiddenItem)
+      isHiddenItem.isHidden = isHidden
+      this.modalConfig.modalTitle = title
     },
-    editCallback (data) {
-      const isHiddenItem = this.modalConfig.formItems.find(item => item.field === 'no')
-      isHiddenItem.isHidden = true
-      this.modalConfig.modalTitle = '编辑'
+    // hook函数 行为动态
+    useAction () {
+      if (arguments[0] === 'refresh') this.$refs.table.refresh(true)
+      if (arguments[0] === 'visible') this.$refs.modal.visible = arguments[1]
     }
   }
 }
 </script>
-
-<style lang="less" scoped>
-.search-class {
-  margin-bottom: 20px;
-}
-.newButton {
-  margin: 20px 0;
-}
-</style>

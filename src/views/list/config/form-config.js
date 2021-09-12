@@ -54,6 +54,10 @@ const formItems = [
   }
 ]
 const formConfig = {
+  loading: false,
+  searchStyle: {
+    marginBottom: '20px'
+  },
   itemStyle: {
     padding: '5px 30px 5px 0px'
   },

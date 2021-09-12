@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import app from './modules/app'
 import user from './modules/user'
+import test from './modules/test'
 
 // default router permission control
 // 默认路由器权限控制 2021.9.7
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   modules: {
     app,
     user,
+    test,
     permission
   },
   state: {},

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import AdnyForm from '@/adny-ui/AdnyForm'
+import AdnyForm from '../../AdnyForm'
 export default {
   components: {
     AdnyForm
