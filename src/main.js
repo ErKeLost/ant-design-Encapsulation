@@ -10,8 +10,7 @@ import i18n from './locales'
 import { VueAxios } from './utils/request'
 import ProLayout, { PageHeaderWrapper } from '@ant-design-vue/pro-layout'
 import themePluginConfig from '../config/themePluginConfig'
-import AdnyRequest from '@/service'
-
+import { registerApp } from '@/adny-ui/global'
 // mock
 // WARNING: `mockjs` NOT SUPPORT `IE` PLEASE DO NOT USE IN `production` ENV.
 import './mock'
@@ -34,13 +33,8 @@ Vue.component('page-container', PageHeaderWrapper)
 Vue.component('page-header-wrapper', PageHeaderWrapper)
 
 window.umi_plugin_ant_themeVar = themePluginConfig.theme
+registerApp(Vue)
 
-AdnyRequest.post({
-  url: 'goods/list',
-  data: { offset: 0, size: 10 }
-}).then(res => {
-  console.log(res)
-})
 new Vue({
   router,
   store,

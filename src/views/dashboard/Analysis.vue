@@ -193,14 +193,14 @@
             <div>
               <!-- style="width: calc(100% - 240px);" -->
               <div>
-                <v-chart :force-fit="true" :height="405" :data="pieData" :scale="pieScale">
+                <!-- <v-chart :force-fit="true" :height="405" :data="pieData" :scale="pieScale">
                   <v-tooltip :showTitle="false" dataKey="item*percent" />
                   <v-axis />
-                  <!-- position="right" :offsetX="-140" -->
                   <v-legend dataKey="item"/>
                   <v-pie position="percent" color="item" :vStyle="pieStyle" />
                   <v-coord type="theta" :radius="0.75" :innerRadius="0.6" />
-                </v-chart>
+                </v-chart> -->
+                <line-echart :lineData="arrData" :xlabels="xlabels" v-if="arrData"></line-echart>
               </div>
 
             </div>
@@ -212,6 +212,7 @@
 </template>
 
 <script>
+import LineEchart from '@/components/echarts/src/line-echart.vue'
 import moment from 'moment'
 import {
   ChartCard,
@@ -287,6 +288,18 @@ const sourceData = [
   { item: '母婴产品', count: 9 },
   { item: '其他', count: 7.8 }
 ]
+const arrData = [
+  9999,
+  8888,
+  7777,
+  6666,
+  6545,
+  9524,
+  10205
+]
+const xlabels = [
+  '潮汐海灵', '诺克萨斯', '金克斯', '德玛西亚', '永世长存', '德邦总管', '无极剑圣'
+]
 
 const pieScale = [{
   dataKey: 'percent',
@@ -315,13 +328,15 @@ export default {
     Bar,
     Trend,
     NumberInfo,
-    MiniSmoothArea
+    MiniSmoothArea,
+    LineEchart
   },
   data () {
     return {
       loading: true,
       rankList,
-
+      xlabels,
+      arrData,
       // 搜索用户数
       searchUserData,
       searchUserScale,

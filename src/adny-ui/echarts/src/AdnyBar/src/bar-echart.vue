@@ -5,8 +5,9 @@
 </template>
 
 <script>
-import AdnyEchart from '../index'
+import AdnyEchart from '../../echart.vue'
 export default {
+  name: 'AdnyBar',
   components: {
     AdnyEchart
   },

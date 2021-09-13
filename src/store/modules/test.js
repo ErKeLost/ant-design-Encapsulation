@@ -3,7 +3,7 @@ import { getServiceList } from '@/api/manage'
 import { getCategoryGoodsSale, getCategoryGoodsCount, getCategoryGoodsFavor } from '@/service/test/test'
 
 const test = {
-  namespace: true,
+  namespaced: true,
   state () {
     return {
       data: {},
