@@ -15,6 +15,7 @@
           rowKey="key"
           :columns="tableConfig"
           :data="loadData"
+          :rowSelection="rowSelection"
           showPagination="auto"
         >
           <span slot="action" slot-scope="text, record">
@@ -54,6 +55,8 @@ export default {
   },
   data () {
     return {
+      selectedRowKeys: [],
+      selectedRows: [],
       // 对话框数据
       modalData: {},
       // 对话框配置
@@ -125,6 +128,19 @@ export default {
     useAction () {
       if (arguments[0] === 'refresh') this.$refs.table.refresh(true)
       if (arguments[0] === 'visible') this.$refs.modal.visible = arguments[1]
+    },
+    onSelectChange (selectedRowKeys, selectedRows) {
+      this.selectedRowKeys = selectedRowKeys
+      this.selectedRows = selectedRows
+      console.log(this.selectedRows)
+    }
+  },
+  computed: {
+    rowSelection () {
+      return {
+        selectedRowKeys: this.selectedRowKeys,
+        onChange: this.onSelectChange
+      }
     }
   }
 }
