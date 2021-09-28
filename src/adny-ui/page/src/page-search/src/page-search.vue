@@ -3,11 +3,17 @@
     <adny-form ref="form" v-bind="searchFormConfig" v-model="formOriginData">
       <template #footer>
         <div class="handle-btn">
-          <a-button icon="user-add" type="primary" class="newButton" @click="handleNewData">新建用户</a-button>
-          <div>
-            <a-button type="primary" icon="rest" @click="handleResetClick">重置</a-button>
-            <a-button class="btn btn-search" type="primary" icon="search" @click="handleSearchClick">搜索</a-button>
-          </div>
+          <a-row>
+            <a-col v-bind="searchFormConfig.colLayout">
+              <a-button icon="user-add" type="primary" class="newButton" @click="handleNewData">新建用户</a-button>
+            </a-col>
+          </a-row>
+          <a-row>
+            <a-col :span="24">
+              <a-button class="xsButton" type="primary" icon="rest" @click="handleResetClick">重置</a-button>
+              <a-button class="btn btn-search" type="primary" icon="search" @click="handleSearchClick">搜索</a-button>
+            </a-col>
+          </a-row>
         </div>
       </template>
     </adny-form>
@@ -36,6 +42,7 @@ export default {
   watch: {
     formItems: {
       handler (newValue) {
+        console.log(this.searchFormConfig)
         for (const item of this.formItems) {
           if (item.field.includes('Time')) {
             this.formOriginData[item.field] = []
@@ -68,10 +75,18 @@ export default {
   display: flex;
   justify-content: space-between;
   .newButton {
+    // margin-top: 50px;
+  }
+  .btn-search {
+    // margin-left: 100px;
+  }
+}
+@media (min-width:986px) {
+    .newButton {
     margin-top: 50px;
   }
   .btn-search {
-    margin-left: 30px;
+    margin-left: 50px;
   }
 }
 </style>

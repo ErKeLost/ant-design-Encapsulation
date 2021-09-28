@@ -1,24 +1,24 @@
 const formItems = [
   {
-    field: 'id',
+    field: 'name',
     type: 'input',
-    label: 'id'
-  },
-  {
-    field: 'no',
-    type: 'input',
-    label: '规则编号',
-    rules: [
-      { min: 3, max: 5, message: '长度在三到五之间', trigger: 'blur' }
-    ],
+    label: '用户名',
+    rules: [],
     placeholder: '请输入用户名'
   },
   {
-    field: 'description',
+    field: 'realname',
     type: 'input',
-    label: '描述',
+    label: '真实姓名',
     rules: [],
-    placeholder: '请输入密码'
+    placeholder: '请输入真实姓名'
+  },
+  {
+    field: 'cellphone',
+    type: 'input',
+    label: '电话号码',
+    rules: [],
+    placeholder: '请输入电话号码'
   },
   {
     field: 'createAt',
@@ -31,25 +31,14 @@ const formItems = [
     }
   },
   {
-    field: 'callNo',
-    type: 'input',
-    label: '调用次数',
-    rules: [],
-    placeholder: '请选择姓名'
-  },
-  {
-    field: 'status',
+    field: 'enable',
     type: 'select',
-    label: '状态',
+    label: '用户状态',
+    rules: [],
+    placeholder: '请选择用户状态',
     options: [
-      {
-        label: '正常',
-        value: 0
-      },
-      {
-        label: '异常',
-        value: 1
-      }
+      { label: '启用', value: 1 },
+      { label: '禁用', value: 0 }
     ]
   }
 ]

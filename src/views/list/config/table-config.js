@@ -1,32 +1,32 @@
 
 const tableConfig = [
   {
-    title: '#',
-    scopedSlots: { customRender: 'serial' }
+    title: '用户名',
+    dataIndex: 'name'
   },
   {
-    title: '规则编号',
-    dataIndex: 'no'
+    title: '真实姓名',
+    dataIndex: 'realname'
   },
   {
-    title: '描述',
-    dataIndex: 'description',
-    scopedSlots: { customRender: 'description' }
-  },
-  {
-    title: '服务调用次数',
-    dataIndex: 'callNo',
-    sorter: true,
-    customRender: (text) => text + ' 次'
+    title: '手机号码',
+    dataIndex: 'cellphone'
   },
   {
     title: '状态',
-    dataIndex: 'status',
+    dataIndex: 'enable',
     scopedSlots: { customRender: 'status' }
   },
   {
+    title: '创建时间',
+    dataIndex: 'createAt',
+    scopedSlots: { customRender: 'createAt' },
+    sorter: true
+  },
+  {
     title: '更新时间',
-    dataIndex: 'updatedAt',
+    dataIndex: 'updateAt',
+    scopedSlots: { customRender: 'updateAt' },
     sorter: true
   },
   {

@@ -2,14 +2,14 @@
   <div>
     <page-header-wrapper>
       <a-card>
-        <page-search
+        <adny-search
           :style="formConfig.searchStyle"
           :searchFormConfig="formConfig"
           @resetBtnClick="HandleResetBtnClick"
           @searchBtnClick="HandleSearchBtnClick"
           @buildNewData="handleNewData"
-        ></page-search>
-        <page-table
+        ></adny-search>
+        <adny-table
           ref="table"
           size="default"
           rowKey="key"
@@ -19,28 +19,28 @@
         >
           <span slot="action" slot-scope="text, record">
             <template>
-              <a-button type="primary" @click="handleEdit(record)">配置</a-button>
+              <a-button type="danger" @click="handleEdit(record)">配置</a-button>
               <a-divider type="vertical" />
             </template>
           </span>
-        </page-table>
-        <page-modal
+        </adny-table>
+        <adny-modal
           :modalData="modalData"
           ref="modal"
           :modalConfig="modalConfig"
           @handleConfimClick="HandleConfimClick"
           :serviceData="serviceData"
           :serviceParameters="serviceParameters"
-        ></page-modal>
+        ></adny-modal>
       </a-card>
     </page-header-wrapper>
   </div>
 </template>
 
 <script>
-import PageModal from '@/components/page/page-modal'
-import PageSearch from '@/components/page/page-search'
-import PageTable from '@/components/page/page-table'
+// import PageModal from '@/adny-ui/page/src/page-modal'
+// import PageSearch from '@/adny-ui/page/src/page-search'
+// import PageTable from '@/adny-ui/page/src/page-table'
 import { formConfig } from './config/form-config'
 import { modalConfig } from './config/modal-config'
 import { tableConfig } from './config/table-config'
@@ -48,9 +48,9 @@ import { getServiceList } from '@/api/manage'
 import { newPageData } from '@/service/test/test.js'
 export default {
   components: {
-    PageSearch,
-    PageTable,
-    PageModal
+    // PageSearch,
+    // PageTable,
+    // PageModal
   },
   data () {
     return {
@@ -70,6 +70,7 @@ export default {
       serviceParameters: { pageNo: 1, pageSize: 100 },
       loadData: (parameter) => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
+        console.log(requestParameters)
         return getServiceList(requestParameters).then((res) => {
           console.log(res.result)
           return res.result
@@ -79,10 +80,13 @@ export default {
   },
   methods: {
     // 编辑 新建 请求接口
-    serviceData (data) {
-      return new Promise((resolve) => {
-        resolve(newPageData('users/9690', { ...data, departmentId: 2, roleId: 1 }))
-      })
+    async serviceData (data) {
+      // return new Promise((resolve) => {
+      //   resolve(newPageData('users', { ...data, departmentId: 2, roleId: 1 }))
+      // })
+      console.log(data)
+      const da = await newPageData('users', { ...data, departmentId: 2, roleId: 1 })
+      console.log(da)
     },
     // 确认按钮
     HandleConfimClick (data) {
@@ -114,7 +118,6 @@ export default {
       const isHiddenItem = this.modalConfig.formItems.find(
         (item) => item.field === 'name'
       )
-      console.log(isHiddenItem)
       isHiddenItem.isHidden = isHidden
       this.modalConfig.modalTitle = title
     },

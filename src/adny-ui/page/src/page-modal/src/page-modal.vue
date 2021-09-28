@@ -72,29 +72,30 @@ export default {
             console.log('这是新增操作')
             this.$emit('handleConfimClick', this.formData)
             console.log(this.formData)
-            this.serviceData(this.formData)
-              .then((res) => {
-                console.log(res)
-                this.loading = false
-                this.modalConfig.loading = false
-                this.visible = false
-                this.$parent.$children[0].handleResetClick()
-                this.$message['success']('新建成功')
-              })
+            return new Promise((resolve, reject) => {
+              this.serviceData(this.formData)
+              resolve()
+            }).then((res) => {
+              this.loading = false
+              this.modalConfig.loading = false
+              this.visible = false
+              this.$parent.$children[0].handleResetClick()
+              this.$message['success']('新建成功')
+            })
           } else {
             console.log('这是编辑操作')
             this.$emit('handleConfimClick', this.formData)
             console.log(this.formData)
-            this.serviceData(this.formData)
-              .then((res) => {
-                console.log(res)
-                console.log(this.modalData)
-                this.loading = false
-                this.modalConfig.loading = false
-                this.visible = false
-                this.$parent.$children[0].handleResetClick()
-                this.$message['success']('编辑成功')
-              })
+            return new Promise((resolve, reject) => {
+              this.serviceData(this.formData)
+              resolve()
+            }).then(() => {
+              this.loading = false
+              this.modalConfig.loading = false
+              this.visible = false
+              this.$parent.$children[0].handleResetClick()
+              this.$message['success']('修改成功')
+            })
           }
         }
       })

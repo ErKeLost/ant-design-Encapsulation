@@ -8,7 +8,7 @@ export function getPageData (url, data) {
 }
 
 export function newPageData (url, data) {
-  return AdnyRequest.patch({
+  return AdnyRequest.post({
     url,
     data
   })

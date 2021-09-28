@@ -55,11 +55,9 @@ export default {
   async created () {
     const data = await getCategoryGoodsSale()
     await this.getDataAction()
-    console.log(data)
     this.categoryGoodsCount.map((item) => {
       this.pieData.push({ value: item.goodsCount, name: item.name })
     })
-    console.log(this.pieData)
     for (const item of data.data) {
       this.xlabels.push(item.name)
       this.arrData.push(item.goodsCount)
