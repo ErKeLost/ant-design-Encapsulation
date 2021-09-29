@@ -29,3 +29,16 @@ export function getCategoryGoodsFavor (url, data) {
     url: '/goods/category/favor'
   })
 }
+
+export function getPageList (query) {
+  return AdnyRequest.post({
+    url: '/users/list',
+    data: query
+  })
+}
+export function editPageData (url, editData) {
+  return AdnyRequest.patch({
+    url,
+    data: editData
+  })
+}

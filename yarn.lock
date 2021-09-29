@@ -11165,6 +11165,11 @@ vm-browserify@^1.0.1:
   resolved "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.2.tgz"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
+vue-adny@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/vue-adny/-/vue-adny-0.2.5.tgz#6b3545ca2048dcc31129badc62ef4ecfb97f0235"
+  integrity sha512-mwZCaqtzk4t93bR9vntW5XC/jvD2aB4vH/XFDJAyp4N+tYMX4nzXUV8HdLpbOlcSXad+TXeZ9mLWglF3t7XTXA==
+
 vue-clipboard2@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npm.taobao.org/vue-clipboard2/download/vue-clipboard2-0.2.1.tgz"

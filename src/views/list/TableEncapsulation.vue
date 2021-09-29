@@ -12,12 +12,16 @@
         <adny-table
           ref="table"
           size="default"
-          rowKey="key"
+          rowKey="id"
+          :alert="true"
           :columns="tableConfig"
           :data="loadData"
           :rowSelection="rowSelection"
           showPagination="auto"
         >
+          <span slot="createAt" slot-scope="text">
+            {{ $format(text) }}
+          </span>
           <span slot="action" slot-scope="text, record">
             <template>
               <a-button type="danger" @click="handleEdit(record)">配置</a-button>
@@ -30,8 +34,10 @@
           ref="modal"
           :modalConfig="modalConfig"
           @handleConfimClick="HandleConfimClick"
-          :serviceData="serviceData"
+          :newServiceData="newServiceData"
+          :editServiceData="editServiceData"
           :serviceParameters="serviceParameters"
+          :defaultInfo="defaultInfo"
         ></adny-modal>
       </a-card>
     </page-header-wrapper>
@@ -45,8 +51,7 @@
 import { formConfig } from './config/form-config'
 import { modalConfig } from './config/modal-config'
 import { tableConfig } from './config/table-config'
-import { getServiceList } from '@/api/manage'
-import { newPageData } from '@/service/test/test.js'
+import { newPageData, getPageList, editPageData } from '@/service/test/test.js'
 export default {
   components: {
     // PageSearch,
@@ -55,6 +60,8 @@ export default {
   },
   data () {
     return {
+      // 默认每条数据原始数据
+      defaultInfo: {},
       selectedRowKeys: [],
       selectedRows: [],
       // 对话框数据
@@ -73,23 +80,33 @@ export default {
       serviceParameters: { pageNo: 1, pageSize: 100 },
       loadData: (parameter) => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
+        requestParameters.size = requestParameters.pageSize
+        requestParameters.offset = 1
+        delete requestParameters.pageSize
+        delete requestParameters.pageNo
         console.log(requestParameters)
-        return getServiceList(requestParameters).then((res) => {
-          console.log(res.result)
-          return res.result
+        return getPageList(requestParameters).then((res) => {
+          const obj = {}
+          obj.pageSize = 10
+          obj.pageNo = 1
+          obj.totalPage = 90
+          obj.totalCount = 90
+          obj.data = res.data.list
+          console.log(obj)
+          return obj
         })
       }
     }
   },
   methods: {
     // 编辑 新建 请求接口
-    async serviceData (data) {
-      // return new Promise((resolve) => {
-      //   resolve(newPageData('users', { ...data, departmentId: 2, roleId: 1 }))
-      // })
-      console.log(data)
-      const da = await newPageData('users', { ...data, departmentId: 2, roleId: 1 })
-      console.log(da)
+    async newServiceData (data) {
+      const result = await newPageData('users', { ...data, departmentId: 2, roleId: 1 })
+      console.log(result)
+    },
+    async editServiceData (id, data) {
+      const result = await editPageData(`users/${id}`, data)
+      console.log(result)
     },
     // 确认按钮
     HandleConfimClick (data) {
@@ -106,6 +123,7 @@ export default {
     },
     // 编辑按钮
     handleEdit (data) {
+      this.defaultInfo = data
       this.modalData = { ...data }
       this.useAction('visible', true)
       this.HiddenActionCallback(true, '编辑')

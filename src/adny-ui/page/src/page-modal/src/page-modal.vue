@@ -29,12 +29,22 @@ export default {
       type: Object,
       default: () => {}
     },
-    serviceData: {
+    newServiceData: {
+      type: Function,
+      require: true,
+      default: () => {}
+    },
+    editServiceData: {
       type: Function,
       require: true,
       default: () => {}
     },
     serviceParameters: {
+      type: Object,
+      default: () => {}
+    },
+    // 默认每条数据
+    defaultInfo: {
       type: Object,
       default: () => {}
     }
@@ -65,35 +75,27 @@ export default {
       // console.log(this.table.$children.$refs.table)
       form.validate((errors, values) => {
         if (errors) {
-          console.log(errors)
           this.loading = true
           this.modalConfig.loading = true
           if (this.type.length === 0) {
-            console.log('这是新增操作')
             this.$emit('handleConfimClick', this.formData)
-            console.log(this.formData)
             return new Promise((resolve, reject) => {
-              this.serviceData(this.formData)
+              this.newServiceData(this.formData)
               resolve()
             }).then((res) => {
-              this.loading = false
-              this.modalConfig.loading = false
-              this.visible = false
-              this.$parent.$children[0].handleResetClick()
+              // 刷新table
+              this.handleRefresh()
               this.$message['success']('新建成功')
             })
           } else {
-            console.log('这是编辑操作')
             this.$emit('handleConfimClick', this.formData)
-            console.log(this.formData)
+            const defaultId = this.defaultInfo.id
             return new Promise((resolve, reject) => {
-              this.serviceData(this.formData)
+              this.editServiceData(defaultId, this.formData)
               resolve()
             }).then(() => {
-              this.loading = false
-              this.modalConfig.loading = false
-              this.visible = false
-              this.$parent.$children[0].handleResetClick()
+              // 刷新table
+              this.handleRefresh()
               this.$message['success']('修改成功')
             })
           }
@@ -104,6 +106,16 @@ export default {
       this.visible = false
       this.loading = false
       this.modalConfig.loading = false
+    },
+    handleRefresh () {
+      this.loading = false
+      this.modalConfig.loading = false
+      this.visible = false
+      this.$parent.$children.forEach(VueComponent => {
+        if (VueComponent.hasOwnProperty('handleResetClick')) {
+          VueComponent.handleResetClick()
+        }
+      })
     }
   }
 }
